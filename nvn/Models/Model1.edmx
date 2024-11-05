@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="quanlybanhangModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'quanlybanhang.dbo.Danhmuc_SP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Danhmuc_SP">
+          <Key>
+            <PropertyRef Name="MaSP" />
+          </Key>
+          <Property Name="MaSP" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ten_SP" Type="nvarchar" MaxLength="50" />
+          <Property Name="Gia_SP" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Don_Hang">
+          <Key>
+            <PropertyRef Name="MaDH" />
+          </Key>
+          <Property Name="MaDH" Type="int" Nullable="false" />
+          <Property Name="MaKH" Type="int" />
+          <Property Name="Ngay_dat" Type="datetime" />
+          <Property Name="Tong_tien" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Trang_thai" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="khach_hang">
+          <Key>
+            <PropertyRef Name="MaKH" />
+          </Key>
+          <Property Name="MaKH" Type="int" Nullable="false" />
+          <Property Name="Ho_ten" Type="varchar" MaxLength="100" />
+          <Property Name="Tai_khoan" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Mat_khau" Type="varchar" MaxLength="32" />
+          <Property Name="Dia_chi" Type="nvarchar" MaxLength="200" />
+          <Property Name="Dien_thoai" Type="varchar" MaxLength="30" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ngay_sinh" Type="datetime" />
+          <Property Name="Ngay_cap_nhat" Type="datetime" />
+          <Property Name="Gioi_tinh" Type="tinyint" />
+          <Property Name="Tich_diem" Type="int" />
+          <Property Name="Trang_thai" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="quan_tri">
+          <Key>
+            <PropertyRef Name="Tai_khoan" />
+          </Key>
+          <Property Name="Tai_khoan" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Mat_khau" Type="varchar" MaxLength="32" />
+          <Property Name="Trang_thai" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="San_Pham">
+          <Key>
+            <PropertyRef Name="MaSP" />
+          </Key>
+          <Property Name="MaSP" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ten_SP" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Loai_SP" Type="nvarchar" MaxLength="50" />
+          <Property Name="Nam_SX" Type="nvarchar" MaxLength="50" />
+          <Property Name="Trang_Thai" Type="tinyint" />
+        </EntityType>
+        <Association Name="FK_Danhmuc_SP_San_Pham">
+          <End Role="San_Pham" Type="Self.San_Pham" Multiplicity="1" />
+          <End Role="Danhmuc_SP" Type="Self.Danhmuc_SP" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="San_Pham">
+              <PropertyRef Name="MaSP" />
+            </Principal>
+            <Dependent Role="Danhmuc_SP">
+              <PropertyRef Name="MaSP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Danhmuc_SP_San_Pham1">
+          <End Role="San_Pham" Type="Self.San_Pham" Multiplicity="0..1" />
+          <End Role="Danhmuc_SP" Type="Self.Danhmuc_SP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="San_Pham">
+              <PropertyRef Name="MaSP" />
+            </Principal>
+            <Dependent Role="Danhmuc_SP">
+              <PropertyRef Name="Ten_SP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Don_Hang_khach_hang">
+          <End Role="khach_hang" Type="Self.khach_hang" Multiplicity="0..1" />
+          <End Role="Don_Hang" Type="Self.Don_Hang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="khach_hang">
+              <PropertyRef Name="MaKH" />
+            </Principal>
+            <Dependent Role="Don_Hang">
+              <PropertyRef Name="MaKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="quanlybanhangModelStoreContainer">
+          <EntitySet Name="Don_Hang" EntityType="Self.Don_Hang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="khach_hang" EntityType="Self.khach_hang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="quan_tri" EntityType="Self.quan_tri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="San_Pham" EntityType="Self.San_Pham" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Danhmuc_SP" EntityType="Self.Danhmuc_SP" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Danhmuc_SP].[MaSP] AS [MaSP], 
+    [Danhmuc_SP].[Ten_SP] AS [Ten_SP], 
+    [Danhmuc_SP].[Gia_SP] AS [Gia_SP]
+    FROM [dbo].[Danhmuc_SP] AS [Danhmuc_SP]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Danhmuc_SP_San_Pham" Association="Self.FK_Danhmuc_SP_San_Pham">
+            <End Role="San_Pham" EntitySet="San_Pham" />
+            <End Role="Danhmuc_SP" EntitySet="Danhmuc_SP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Danhmuc_SP_San_Pham1" Association="Self.FK_Danhmuc_SP_San_Pham1">
+            <End Role="San_Pham" EntitySet="San_Pham" />
+            <End Role="Danhmuc_SP" EntitySet="Danhmuc_SP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Don_Hang_khach_hang" Association="Self.FK_Don_Hang_khach_hang">
+            <End Role="khach_hang" EntitySet="khach_hang" />
+            <End Role="Don_Hang" EntitySet="Don_Hang" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="quanlybanhangModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Don_Hang">
+          <Key>
+            <PropertyRef Name="MaDH" />
+          </Key>
+          <Property Name="MaDH" Type="Int32" Nullable="false" />
+          <Property Name="MaKH" Type="Int32" />
+          <Property Name="Ngay_dat" Type="DateTime" Precision="3" />
+          <Property Name="Tong_tien" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Trang_thai" Type="Byte" />
+          <NavigationProperty Name="khach_hang" Relationship="Self.FK_Don_Hang_khach_hang" FromRole="Don_Hang" ToRole="khach_hang" />
+        </EntityType>
+        <EntityType Name="khach_hang">
+          <Key>
+            <PropertyRef Name="MaKH" />
+          </Key>
+          <Property Name="MaKH" Type="Int32" Nullable="false" />
+          <Property Name="Ho_ten" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Tai_khoan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mat_khau" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Dia_chi" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Dien_thoai" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ngay_sinh" Type="DateTime" Precision="3" />
+          <Property Name="Ngay_cap_nhat" Type="DateTime" Precision="3" />
+          <Property Name="Gioi_tinh" Type="Byte" />
+          <Property Name="Tich_diem" Type="Int32" />
+          <Property Name="Trang_thai" Type="Byte" />
+          <NavigationProperty Name="Don_Hang" Relationship="Self.FK_Don_Hang_khach_hang" FromRole="khach_hang" ToRole="Don_Hang" />
+        </EntityType>
+        <EntityType Name="quan_tri">
+          <Key>
+            <PropertyRef Name="Tai_khoan" />
+          </Key>
+          <Property Name="Tai_khoan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mat_khau" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Trang_thai" Type="Byte" />
+        </EntityType>
+        <EntityType Name="San_Pham">
+          <Key>
+            <PropertyRef Name="MaSP" />
+          </Key>
+          <Property Name="MaSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ten_SP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Loai_SP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nam_SX" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Trang_Thai" Type="Byte" />
+          <NavigationProperty Name="Danhmuc_SP" Relationship="Self.FK_Danhmuc_SP_San_Pham" FromRole="San_Pham" ToRole="Danhmuc_SP" />
+          <NavigationProperty Name="Danhmuc_SP1" Relationship="Self.FK_Danhmuc_SP_San_Pham1" FromRole="San_Pham" ToRole="Danhmuc_SP" />
+        </EntityType>
+        <EntityType Name="Danhmuc_SP">
+          <Key>
+            <PropertyRef Name="MaSP" />
+          </Key>
+          <Property Name="MaSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ten_SP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Gia_SP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="San_Pham" Relationship="Self.FK_Danhmuc_SP_San_Pham" FromRole="Danhmuc_SP" ToRole="San_Pham" />
+          <NavigationProperty Name="San_Pham1" Relationship="Self.FK_Danhmuc_SP_San_Pham1" FromRole="Danhmuc_SP" ToRole="San_Pham" />
+        </EntityType>
+        <Association Name="FK_Don_Hang_khach_hang">
+          <End Role="khach_hang" Type="Self.khach_hang" Multiplicity="0..1" />
+          <End Role="Don_Hang" Type="Self.Don_Hang" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="khach_hang">
+              <PropertyRef Name="MaKH" />
+            </Principal>
+            <Dependent Role="Don_Hang">
+              <PropertyRef Name="MaKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Danhmuc_SP_San_Pham">
+          <End Role="San_Pham" Type="Self.San_Pham" Multiplicity="1" />
+          <End Role="Danhmuc_SP" Type="Self.Danhmuc_SP" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="San_Pham">
+              <PropertyRef Name="MaSP" />
+            </Principal>
+            <Dependent Role="Danhmuc_SP">
+              <PropertyRef Name="MaSP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Danhmuc_SP_San_Pham1">
+          <End Role="San_Pham" Type="Self.San_Pham" Multiplicity="0..1" />
+          <End Role="Danhmuc_SP" Type="Self.Danhmuc_SP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="San_Pham">
+              <PropertyRef Name="MaSP" />
+            </Principal>
+            <Dependent Role="Danhmuc_SP">
+              <PropertyRef Name="Ten_SP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="quanlybanhangEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Don_Hang" EntityType="Self.Don_Hang" />
+          <EntitySet Name="khach_hang" EntityType="Self.khach_hang" />
+          <EntitySet Name="quan_tri" EntityType="Self.quan_tri" />
+          <EntitySet Name="San_Pham" EntityType="Self.San_Pham" />
+          <EntitySet Name="Danhmuc_SP" EntityType="Self.Danhmuc_SP" />
+          <AssociationSet Name="FK_Don_Hang_khach_hang" Association="Self.FK_Don_Hang_khach_hang">
+            <End Role="khach_hang" EntitySet="khach_hang" />
+            <End Role="Don_Hang" EntitySet="Don_Hang" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Danhmuc_SP_San_Pham" Association="Self.FK_Danhmuc_SP_San_Pham">
+            <End Role="San_Pham" EntitySet="San_Pham" />
+            <End Role="Danhmuc_SP" EntitySet="Danhmuc_SP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Danhmuc_SP_San_Pham1" Association="Self.FK_Danhmuc_SP_San_Pham1">
+            <End Role="San_Pham" EntitySet="San_Pham" />
+            <End Role="Danhmuc_SP" EntitySet="Danhmuc_SP" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="quanlybanhangModelStoreContainer" CdmEntityContainer="quanlybanhangEntities">
+          <EntitySetMapping Name="Don_Hang">
+            <EntityTypeMapping TypeName="quanlybanhangModel.Don_Hang">
+              <MappingFragment StoreEntitySet="Don_Hang">
+                <ScalarProperty Name="MaDH" ColumnName="MaDH" />
+                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+                <ScalarProperty Name="Ngay_dat" ColumnName="Ngay_dat" />
+                <ScalarProperty Name="Tong_tien" ColumnName="Tong_tien" />
+                <ScalarProperty Name="Trang_thai" ColumnName="Trang_thai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="khach_hang">
+            <EntityTypeMapping TypeName="quanlybanhangModel.khach_hang">
+              <MappingFragment StoreEntitySet="khach_hang">
+                <ScalarProperty Name="MaKH" ColumnName="MaKH" />
+                <ScalarProperty Name="Ho_ten" ColumnName="Ho_ten" />
+                <ScalarProperty Name="Tai_khoan" ColumnName="Tai_khoan" />
+                <ScalarProperty Name="Mat_khau" ColumnName="Mat_khau" />
+                <ScalarProperty Name="Dia_chi" ColumnName="Dia_chi" />
+                <ScalarProperty Name="Dien_thoai" ColumnName="Dien_thoai" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Ngay_sinh" ColumnName="Ngay_sinh" />
+                <ScalarProperty Name="Ngay_cap_nhat" ColumnName="Ngay_cap_nhat" />
+                <ScalarProperty Name="Gioi_tinh" ColumnName="Gioi_tinh" />
+                <ScalarProperty Name="Tich_diem" ColumnName="Tich_diem" />
+                <ScalarProperty Name="Trang_thai" ColumnName="Trang_thai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="quan_tri">
+            <EntityTypeMapping TypeName="quanlybanhangModel.quan_tri">
+              <MappingFragment StoreEntitySet="quan_tri">
+                <ScalarProperty Name="Tai_khoan" ColumnName="Tai_khoan" />
+                <ScalarProperty Name="Mat_khau" ColumnName="Mat_khau" />
+                <ScalarProperty Name="Trang_thai" ColumnName="Trang_thai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="San_Pham">
+            <EntityTypeMapping TypeName="quanlybanhangModel.San_Pham">
+              <MappingFragment StoreEntitySet="San_Pham">
+                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+                <ScalarProperty Name="Ten_SP" ColumnName="Ten_SP" />
+                <ScalarProperty Name="Loai_SP" ColumnName="Loai_SP" />
+                <ScalarProperty Name="Nam_SX" ColumnName="Nam_SX" />
+                <ScalarProperty Name="Trang_Thai" ColumnName="Trang_Thai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Danhmuc_SP">
+            <EntityTypeMapping TypeName="quanlybanhangModel.Danhmuc_SP">
+              <MappingFragment StoreEntitySet="Danhmuc_SP">
+                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+                <ScalarProperty Name="Ten_SP" ColumnName="Ten_SP" />
+                <ScalarProperty Name="Gia_SP" ColumnName="Gia_SP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

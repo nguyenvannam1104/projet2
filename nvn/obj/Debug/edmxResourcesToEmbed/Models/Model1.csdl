@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="quanlybanhangModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Don_Hang">
+    <Key>
+      <PropertyRef Name="MaDH" />
+    </Key>
+    <Property Name="MaDH" Type="Int32" Nullable="false" />
+    <Property Name="MaKH" Type="Int32" />
+    <Property Name="Ngay_dat" Type="DateTime" Precision="3" />
+    <Property Name="Tong_tien" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="Trang_thai" Type="Byte" />
+    <NavigationProperty Name="khach_hang" Relationship="Self.FK_Don_Hang_khach_hang" FromRole="Don_Hang" ToRole="khach_hang" />
+  </EntityType>
+  <EntityType Name="khach_hang">
+    <Key>
+      <PropertyRef Name="MaKH" />
+    </Key>
+    <Property Name="MaKH" Type="Int32" Nullable="false" />
+    <Property Name="Ho_ten" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Tai_khoan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Mat_khau" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="Dia_chi" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Dien_thoai" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Ngay_sinh" Type="DateTime" Precision="3" />
+    <Property Name="Ngay_cap_nhat" Type="DateTime" Precision="3" />
+    <Property Name="Gioi_tinh" Type="Byte" />
+    <Property Name="Tich_diem" Type="Int32" />
+    <Property Name="Trang_thai" Type="Byte" />
+    <NavigationProperty Name="Don_Hang" Relationship="Self.FK_Don_Hang_khach_hang" FromRole="khach_hang" ToRole="Don_Hang" />
+  </EntityType>
+  <EntityType Name="quan_tri">
+    <Key>
+      <PropertyRef Name="Tai_khoan" />
+    </Key>
+    <Property Name="Tai_khoan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Mat_khau" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="Trang_thai" Type="Byte" />
+  </EntityType>
+  <EntityType Name="San_Pham">
+    <Key>
+      <PropertyRef Name="MaSP" />
+    </Key>
+    <Property Name="MaSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Ten_SP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Loai_SP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Nam_SX" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Trang_Thai" Type="Byte" />
+    <NavigationProperty Name="Danhmuc_SP" Relationship="Self.FK_Danhmuc_SP_San_Pham" FromRole="San_Pham" ToRole="Danhmuc_SP" />
+    <NavigationProperty Name="Danhmuc_SP1" Relationship="Self.FK_Danhmuc_SP_San_Pham1" FromRole="San_Pham" ToRole="Danhmuc_SP" />
+  </EntityType>
+  <EntityType Name="Danhmuc_SP">
+    <Key>
+      <PropertyRef Name="MaSP" />
+    </Key>
+    <Property Name="MaSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Ten_SP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Gia_SP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="San_Pham" Relationship="Self.FK_Danhmuc_SP_San_Pham" FromRole="Danhmuc_SP" ToRole="San_Pham" />
+    <NavigationProperty Name="San_Pham1" Relationship="Self.FK_Danhmuc_SP_San_Pham1" FromRole="Danhmuc_SP" ToRole="San_Pham" />
+  </EntityType>
+  <Association Name="FK_Don_Hang_khach_hang">
+    <End Role="khach_hang" Type="Self.khach_hang" Multiplicity="0..1" />
+    <End Role="Don_Hang" Type="Self.Don_Hang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="khach_hang">
+        <PropertyRef Name="MaKH" />
+      </Principal>
+      <Dependent Role="Don_Hang">
+        <PropertyRef Name="MaKH" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Danhmuc_SP_San_Pham">
+    <End Role="San_Pham" Type="Self.San_Pham" Multiplicity="1" />
+    <End Role="Danhmuc_SP" Type="Self.Danhmuc_SP" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="San_Pham">
+        <PropertyRef Name="MaSP" />
+      </Principal>
+      <Dependent Role="Danhmuc_SP">
+        <PropertyRef Name="MaSP" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Danhmuc_SP_San_Pham1">
+    <End Role="San_Pham" Type="Self.San_Pham" Multiplicity="0..1" />
+    <End Role="Danhmuc_SP" Type="Self.Danhmuc_SP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="San_Pham">
+        <PropertyRef Name="MaSP" />
+      </Principal>
+      <Dependent Role="Danhmuc_SP">
+        <PropertyRef Name="Ten_SP" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="quanlybanhangEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Don_Hang" EntityType="Self.Don_Hang" />
+    <EntitySet Name="khach_hang" EntityType="Self.khach_hang" />
+    <EntitySet Name="quan_tri" EntityType="Self.quan_tri" />
+    <EntitySet Name="San_Pham" EntityType="Self.San_Pham" />
+    <EntitySet Name="Danhmuc_SP" EntityType="Self.Danhmuc_SP" />
+    <AssociationSet Name="FK_Don_Hang_khach_hang" Association="Self.FK_Don_Hang_khach_hang">
+      <End Role="khach_hang" EntitySet="khach_hang" />
+      <End Role="Don_Hang" EntitySet="Don_Hang" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Danhmuc_SP_San_Pham" Association="Self.FK_Danhmuc_SP_San_Pham">
+      <End Role="San_Pham" EntitySet="San_Pham" />
+      <End Role="Danhmuc_SP" EntitySet="Danhmuc_SP" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Danhmuc_SP_San_Pham1" Association="Self.FK_Danhmuc_SP_San_Pham1">
+      <End Role="San_Pham" EntitySet="San_Pham" />
+      <End Role="Danhmuc_SP" EntitySet="Danhmuc_SP" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

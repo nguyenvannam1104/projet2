@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="quanlybanhangModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'quanlybanhang.dbo.Danhmuc_SP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Danhmuc_SP">
+    <Key>
+      <PropertyRef Name="MaSP" />
+    </Key>
+    <Property Name="MaSP" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Ten_SP" Type="nvarchar" MaxLength="50" />
+    <Property Name="Gia_SP" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Don_Hang">
+    <Key>
+      <PropertyRef Name="MaDH" />
+    </Key>
+    <Property Name="MaDH" Type="int" Nullable="false" />
+    <Property Name="MaKH" Type="int" />
+    <Property Name="Ngay_dat" Type="datetime" />
+    <Property Name="Tong_tien" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="Trang_thai" Type="tinyint" />
+  </EntityType>
+  <EntityType Name="khach_hang">
+    <Key>
+      <PropertyRef Name="MaKH" />
+    </Key>
+    <Property Name="MaKH" Type="int" Nullable="false" />
+    <Property Name="Ho_ten" Type="varchar" MaxLength="100" />
+    <Property Name="Tai_khoan" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Mat_khau" Type="varchar" MaxLength="32" />
+    <Property Name="Dia_chi" Type="nvarchar" MaxLength="200" />
+    <Property Name="Dien_thoai" Type="varchar" MaxLength="30" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Ngay_sinh" Type="datetime" />
+    <Property Name="Ngay_cap_nhat" Type="datetime" />
+    <Property Name="Gioi_tinh" Type="tinyint" />
+    <Property Name="Tich_diem" Type="int" />
+    <Property Name="Trang_thai" Type="tinyint" />
+  </EntityType>
+  <EntityType Name="quan_tri">
+    <Key>
+      <PropertyRef Name="Tai_khoan" />
+    </Key>
+    <Property Name="Tai_khoan" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Mat_khau" Type="varchar" MaxLength="32" />
+    <Property Name="Trang_thai" Type="tinyint" />
+  </EntityType>
+  <EntityType Name="San_Pham">
+    <Key>
+      <PropertyRef Name="MaSP" />
+    </Key>
+    <Property Name="MaSP" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Ten_SP" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Loai_SP" Type="nvarchar" MaxLength="50" />
+    <Property Name="Nam_SX" Type="nvarchar" MaxLength="50" />
+    <Property Name="Trang_Thai" Type="tinyint" />
+  </EntityType>
+  <Association Name="FK_Danhmuc_SP_San_Pham">
+    <End Role="San_Pham" Type="Self.San_Pham" Multiplicity="1" />
+    <End Role="Danhmuc_SP" Type="Self.Danhmuc_SP" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="San_Pham">
+        <PropertyRef Name="MaSP" />
+      </Principal>
+      <Dependent Role="Danhmuc_SP">
+        <PropertyRef Name="MaSP" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Danhmuc_SP_San_Pham1">
+    <End Role="San_Pham" Type="Self.San_Pham" Multiplicity="0..1" />
+    <End Role="Danhmuc_SP" Type="Self.Danhmuc_SP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="San_Pham">
+        <PropertyRef Name="MaSP" />
+      </Principal>
+      <Dependent Role="Danhmuc_SP">
+        <PropertyRef Name="Ten_SP" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Don_Hang_khach_hang">
+    <End Role="khach_hang" Type="Self.khach_hang" Multiplicity="0..1" />
+    <End Role="Don_Hang" Type="Self.Don_Hang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="khach_hang">
+        <PropertyRef Name="MaKH" />
+      </Principal>
+      <Dependent Role="Don_Hang">
+        <PropertyRef Name="MaKH" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="quanlybanhangModelStoreContainer">
+    <EntitySet Name="Don_Hang" EntityType="Self.Don_Hang" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="khach_hang" EntityType="Self.khach_hang" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="quan_tri" EntityType="Self.quan_tri" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="San_Pham" EntityType="Self.San_Pham" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Danhmuc_SP" EntityType="Self.Danhmuc_SP" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Danhmuc_SP].[MaSP] AS [MaSP], 
+    [Danhmuc_SP].[Ten_SP] AS [Ten_SP], 
+    [Danhmuc_SP].[Gia_SP] AS [Gia_SP]
+    FROM [dbo].[Danhmuc_SP] AS [Danhmuc_SP]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Danhmuc_SP_San_Pham" Association="Self.FK_Danhmuc_SP_San_Pham">
+      <End Role="San_Pham" EntitySet="San_Pham" />
+      <End Role="Danhmuc_SP" EntitySet="Danhmuc_SP" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Danhmuc_SP_San_Pham1" Association="Self.FK_Danhmuc_SP_San_Pham1">
+      <End Role="San_Pham" EntitySet="San_Pham" />
+      <End Role="Danhmuc_SP" EntitySet="Danhmuc_SP" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Don_Hang_khach_hang" Association="Self.FK_Don_Hang_khach_hang">
+      <End Role="khach_hang" EntitySet="khach_hang" />
+      <End Role="Don_Hang" EntitySet="Don_Hang" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
